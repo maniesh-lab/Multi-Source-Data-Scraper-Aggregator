@@ -9,18 +9,21 @@ def main():
     thriller_raw= scrape_books("https://books.toscrape.com/catalogue/category/books/thriller_37/index.html")
     philosophy_raw = scrape_books("https://books.toscrape.com/catalogue/category/books/philosophy_7/index.html")
 
+
     mystery_clean = clean_data(mystery_raw)
     classics_clean = clean_data(classics_raw)
     thriller_clean = clean_data(thriller_raw)
     philosophy_clean = clean_data(philosophy_raw)
 
+
     combined_df = merge_datasets(mystery_clean, classics_clean,thriller_clean,philosophy_clean)
 
     generate_charts(combined_df)
 
-    combined_df.to_csv("output/combined_books.csv", index=False)
+    output_path = "output/combined_books.csv"
+    combined_df.to_csv(output_path, index=False)
 
-    print(f"Done. {len(combined_df)} books scraped.")
+    print(f"Scraped {len(combined_df)} books across {combined_df['Category'].nunique()} categories → saved to {output_path}")
 
 if __name__ == "__main__":
     main()
